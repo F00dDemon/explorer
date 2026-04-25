@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ExplorerSearch {
 
@@ -33,30 +35,21 @@ public class ExplorerSearch {
         // Please also make more test cases
         // I STRONGLY RECOMMEND testing some helpers you might make too
 
-        boolean[][] visited = new boolean[island.length][island[0].length];
+        Set<String> visited = new HashSet<>();
         reachableArea(island, explorerLocation(island), visited);
-        int count = 0;
-
-        for (boolean[] arr : visited){
-            for(int i = 0; i < arr.length; i++){
-                if(arr[i] == true){
-                    count++;
-                }
-            }
-        }
-        return count;
+        return visited.size();
 
     }
-    public static void reachableArea(int[][] island, int[] loc, boolean[][] visited) {
+    public static void reachableArea(int[][] island, int[] loc, Set<String> visited) {
         int currentRow = loc[0];
         int currentColumn = loc[1];
-        if(island[currentRow][currentColumn] == 1)return;
-        if(visited[currentRow][currentColumn]) return;
 
-        visited[currentRow][currentColumn] = true;
+        String setString = currentRow + " / " + currentColumn;
 
-        List<int[]> validLocs = possibleMoves(island, loc);
-        for(int[] move: validLocs){
+        if(visited.contains(setString)) return;
+        visited.add(setString);
+
+        for(int[] move: possibleMoves(island, loc)){
             reachableArea(island, move, visited);
         }
 
